@@ -9,10 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class DataFile {
-
+   
     public boolean loadData(List<HotelInformation> list, String fileName) {
         list.clear();
         File f = new File(fileName);
@@ -46,7 +48,6 @@ public class DataFile {
                 return false;
             }
         } catch (NumberFormatException e) {
-            // log error or throw exception
             System.err.println("Error parsing double value from input: " + e.getMessage());
             return false;
         }
@@ -72,7 +73,6 @@ public class DataFile {
                 fileOut.close();
                 fos.close();
                 System.out.println(msg);
-                return true; // Indicates a successful save
             }
         } catch (IOException e) {
             System.out.println(e);

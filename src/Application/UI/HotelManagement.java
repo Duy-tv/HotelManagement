@@ -19,7 +19,7 @@ public class HotelManagement {
      */
     public static void main(String[] args) throws EOFException {
         Menu menu = new Menu();
-        Service service = new Service("./Hotel.dat");
+        Service service = new Service("Hotel.dat");
 
         int choice = 0;
         do {
@@ -33,8 +33,10 @@ public class HotelManagement {
                     service.checkExitsHotel();
                     break;
                 case 3:
+                    service.updateHotelInfor();
                     break;
                 case 4:
+                    service.deleteHotel();
                     break;
                 case 5:
                     menu.searchingHotelMenu();
@@ -43,6 +45,7 @@ public class HotelManagement {
                     service.displayHotel();
                     break;
                 default:
+                    System.out.println("Bye!!!");
                     break;
 
             }

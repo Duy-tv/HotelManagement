@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author Duy.Tran
  */
 public class HotelInformation implements Serializable, Comparable<HotelInformation> {
+
     private String hotel_Id;
     private String hotel_Name;
     private int hotel_Room_Available;
@@ -28,8 +29,6 @@ public class HotelInformation implements Serializable, Comparable<HotelInformati
         this.hotel_Rating = hotel_Rating;
     }
 
-    
-    
     public String getHotel_Id() {
         return hotel_Id;
     }
@@ -77,15 +76,15 @@ public class HotelInformation implements Serializable, Comparable<HotelInformati
     public void setHotel_Rating(int hotel_Rating) {
         this.hotel_Rating = hotel_Rating;
     }
-    
+
     @Override
     public String toString() {
         return String.format("|%9s|%17s|%25s|%80s|%20s|%20s|\n", hotel_Id, hotel_Name, hotel_Room_Available, hotel_Address, hotel_Phone, hotel_Rating);
     }
 
     @Override
-public int compareTo(HotelInformation other) {
-    // Compare hotel ratings for sorting
-    return Integer.compare(this.hotel_Rating, other.hotel_Rating);
-}
+    public int compareTo(HotelInformation other) {
+        // Compare hotel ratings for sorting
+        return Integer.compare(this.hotel_Rating, other.hotel_Rating);
+    }
 }

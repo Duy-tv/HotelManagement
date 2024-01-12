@@ -6,14 +6,15 @@
 package Application.UI;
 
 import Application.Utilites.Inputer;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import Bussiness.Service;
 
 /**
  *
  * @author Duy.Tran
  */
 public class Menu extends Inputer {
+
+    Service service = new Service("Hotel.dat");
 
     public void menuDisplay() {
         System.out.println("\n1) Adding new Hotel.");
@@ -23,7 +24,7 @@ public class Menu extends Inputer {
         System.out.println("5) Searching Hotel.");
         System.out.println("6) Displaying a hotel list.");
         System.out.println("Others: Quit.");
-        
+
     }
 
     public int choose() {
@@ -31,25 +32,20 @@ public class Menu extends Inputer {
     }
 
     public void searchingHotel() {
-        System.out.println("\n1) Searching by Hotel_id.");
+        System.out.println("1) Searching by Hotel_id.");
         System.out.println("2) Searching by Hotel_name.");
-        System.out.println("Other: Quit.");
-        
 
     }
 
     public void searchingHotelMenu() {
-        do {
-            searchingHotel();
-            switch (choose()) {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                default:
-                    break;
-            }
-        } while (1 <= choose() && choose() <= 2);
-
+        searchingHotel();
+        switch (choose()) {
+            case 1:
+                service.checkHotelById();
+                break;
+            case 2:
+                service.checkHotelbyName();
+                break;
+        }
     }
 }

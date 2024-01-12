@@ -12,12 +12,24 @@ import java.util.ArrayList;
  * @author Duy.Tran
  */
 public class SearchHotel {
+
     public HotelInformation searchHotelById(ArrayList<HotelInformation> arr, String id) {
-        for(HotelInformation hotelInfor : arr) {
-            if(id.equals(hotelInfor.getHotel_Id())) {
+        for (HotelInformation hotelInfor : arr) {
+            if (hotelInfor.getHotel_Id().equalsIgnoreCase(id)) {
                 return hotelInfor;
             }
         }
         return null;
     }
+
+    public HotelInformation searchHotelByName(ArrayList<HotelInformation> arr, String name) {
+        for (HotelInformation hotelInfor : arr) {
+            if (hotelInfor.getHotel_Name().equalsIgnoreCase(name)) {
+                return hotelInfor;
+            }
+        }
+
+        return null;
+    }
+
 }

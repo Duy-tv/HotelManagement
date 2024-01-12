@@ -27,16 +27,38 @@ public class Inputer {
         while (check) {
             try {
                 input_int = Integer.parseInt(sc.nextLine());
-
                 return input_int;
             } catch (NumberFormatException e) {
                 System.err.println("This must be number!");
                 check = true;
             }
-
         }
         return 0;
     }
+
+    public int rating(String msg, int x, int y) {
+        System.out.print(msg);
+        boolean check = true;
+        while (check) {
+            try {
+                input_int = Integer.parseInt(sc.nextLine());
+                if(input_int == 0) {
+                    return 0;
+                }
+                if (input_int < x || input_int > y) {
+                    System.out.println("This number must be from " + x + " to " + y);
+                    check = true;
+                } else {
+                    return input_int;
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("This must be number!");
+                check = true;
+            }
+        }
+        return 0;
+    }
+
     public String inputUpperString(String msg) {
         String input_string = "";
         do {
@@ -45,9 +67,7 @@ public class Inputer {
         } while (input_string.trim().isEmpty());
         return input_string;
     }
-    
-    
-    
+
     public String inputString(String msg) {
         String input_string = "";
         do {
@@ -55,6 +75,14 @@ public class Inputer {
             input_string = sc.nextLine();
             input_string = processingString(input_string);
         } while (input_string.trim().isEmpty());
+        return input_string;
+    }
+    
+    public String inputStringCanBlank(String msg) {
+        String input_string = "";
+            System.out.println(msg);
+            input_string = sc.nextLine();
+            input_string = processingString(input_string);
         return input_string;
     }
 
@@ -65,6 +93,16 @@ public class Inputer {
             System.out.println(msg);
             input_string = sc.nextLine();
         } while (input_string.trim().isEmpty() || !pattern.matcher(input_string).matches());
+        return input_string;
+    }
+    
+    public String inputStringPatternBlank(String msg, String pt) {
+        String input_string = "";
+        Pattern pattern = Pattern.compile(pt);
+        do {
+            System.out.println(msg);
+            input_string = sc.nextLine();
+        } while (!input_string.trim().isEmpty() && !pattern.matcher(input_string).matches());
         return input_string;
     }
 
