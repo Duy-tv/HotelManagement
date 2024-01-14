@@ -9,12 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+/**
+ * This class provides methods for loading and saving hotel information data to
+ * and from a file.
+ */
 public class DataFile {
-   
+
     public boolean loadData(List<HotelInformation> list, String fileName) {
         list.clear();
         File f = new File(fileName);
@@ -76,7 +78,7 @@ public class DataFile {
             }
         } catch (IOException e) {
             System.out.println(e);
-            
+
         }
         return false;
     }

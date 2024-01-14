@@ -12,7 +12,8 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- *
+ *Process user input in a hotel management application.
+ *Provides methods for inputting various types of data such as integers, strings, and yes/no choices.
  * @author Duy.Tran
  */
 public class Inputer {
@@ -138,12 +139,12 @@ public class Inputer {
     }
 
     public String processingString(String input_string) {
-        if (input_string == null) {
+        if (input_string.isEmpty()) {
             return " ";
         }
-        String[] words = input_string.trim().split("\\s+");
-        StringBuilder processString = new StringBuilder();
-
+        String[] words = input_string.trim().split("\\s+"); //Delete extra space
+        StringBuilder processString = new StringBuilder(); //does not create new objects continuously
+        //Capitalize the first characters
         for (String word : words) {
             if (!word.isEmpty()) {
                 processString.append(Character.toUpperCase(word.charAt(0)))

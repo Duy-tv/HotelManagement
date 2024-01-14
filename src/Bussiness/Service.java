@@ -14,10 +14,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ *This class represents the service layer for managing hotel information.
+ *It provides methods for adding, updating, deleting, and searching hotel data.
  *
  * @author Duy.Tran
  */
-public class Service {
+public class Service implements IService {
 
     private final List<HotelInformation> arrHotel = new ArrayList<>();
     private final DataFile DF = new Data.DataFile();
@@ -39,6 +41,7 @@ public class Service {
         }
     }
 
+    @Override
     public void addHotel() {
         String hotel_Id;
         String hotel_Name;
@@ -61,6 +64,7 @@ public class Service {
         }
     }
 
+    @Override
     public void checkExitsHotel() {
 
         boolean choice = true;
@@ -69,13 +73,14 @@ public class Service {
             DF.loadData(arrHotel, pathName);
             HotelInformation CE = sd.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
             if (CE != null) {
+                //Filter data using Stream API
                 System.out.println("Exist Hotel");
-                List<HotelInformation> temp = arrHotel.stream()
+                List<HotelInformation> temp = arrHotel.stream() //convert original list to stream
                         .filter(hotel -> hotel.getHotel_Id().equalsIgnoreCase(hotel_Id))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()); //collects the elements of the stream into a new list
                 display();
                 for (HotelInformation hotel : temp) {
-                    System.out.println(hotel);
+                    System.out.println(hotel); //print list
                 }
             } else {
                 System.out.println("No Hotel Found!");
@@ -84,6 +89,7 @@ public class Service {
         }
     }
 
+    @Override
     public void updateHotelInfor() {
         String hotel_Name;
         int hotel_Room_Available;
@@ -123,13 +129,14 @@ public class Service {
         }
     }
 
+    @Override
     public void deleteHotel() {
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
         HotelInformation CE = sd.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
         if (CE != null) {
             System.out.println("Do you ready want to delete this hotel ?");
             if (inputer.inputYN("(Choose Y or N):") == true) {
-                arrHotel.remove(CE);
+                arrHotel.remove(CE); //remove the list that matches the entered ID
                 DF.saveData(arrHotel, pathName, "Success.");
             } else {
                 System.out.println("Fail.");
@@ -140,14 +147,15 @@ public class Service {
 
     }
 
+    @Override
     public void checkHotelById() {
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
         HotelInformation CE = sd.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
         if (CE != null) {
             //Filter data using Stream API
-            List<HotelInformation> temp = arrHotel.stream()
+            List<HotelInformation> temp = arrHotel.stream() //convert original list to stream
                     .filter(hotel -> hotel.getHotel_Id().contains(hotel_Id))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()); //collects the elements of the stream into a new list
             if (!temp.isEmpty()) {
                 Collections.sort(temp, Comparator.comparing(HotelInformation::getHotel_Id).reversed());
             }
@@ -160,14 +168,15 @@ public class Service {
         }
     }
 
+    @Override
     public void checkHotelbyName() {
         String hotel_Name = inputer.inputStringPattern("Enter hotel name:", "^[a-zA-Z\\s]+$");
         HotelInformation CE = sd.searchHotelByName((ArrayList<HotelInformation>) arrHotel, hotel_Name);
         if (CE != null) {
             //Filter data using Stream API
-            List<HotelInformation> temp = arrHotel.stream()
+            List<HotelInformation> temp = arrHotel.stream() //convert original list to stream
                     .filter(hotel -> hotel.getHotel_Name().contains(hotel_Name))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toList()); //collects the elements of the stream into a new list
             if (!temp.isEmpty()) {
                 Collections.sort(temp, Comparator.comparing(HotelInformation::getHotel_Name));
             }
@@ -180,8 +189,10 @@ public class Service {
         }
     }
 
+    @Override
     public void displayHotel() {
         display();
+        //display data in file with descending by Hotel_Name
         if (!arrHotel.isEmpty()) {
             Collections.sort(arrHotel, Comparator.comparing(HotelInformation::getHotel_Name).reversed());
             for (HotelInformation hotel : arrHotel) {

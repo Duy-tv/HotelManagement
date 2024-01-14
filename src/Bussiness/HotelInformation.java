@@ -8,7 +8,7 @@ package Bussiness;
 import java.io.Serializable;
 
 /**
- *
+ *Provides methods for getting and setting hotel information.
  * @author Duy.Tran
  */
 public class HotelInformation implements Serializable, Comparable<HotelInformation> {

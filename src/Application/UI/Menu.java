@@ -9,7 +9,7 @@ import Application.Utilites.Inputer;
 import Bussiness.Service;
 
 /**
- *
+ *Menu class for displaying options.
  * @author Duy.Tran
  */
 public class Menu extends Inputer {

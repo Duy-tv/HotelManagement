@@ -9,13 +9,14 @@ import Bussiness.Service;
 import java.io.EOFException;
 
 /**
- *
+ *Displays the main menu and handles user interactions.
  * @author Duy.Tran
  */
 public class HotelManagement {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.EOFException
      */
     public static void main(String[] args) throws EOFException {
         Menu menu = new Menu();

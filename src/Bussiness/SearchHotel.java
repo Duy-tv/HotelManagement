@@ -8,7 +8,8 @@ package Bussiness;
 import java.util.ArrayList;
 
 /**
- *
+ *Class searches for hotel information based on ID or Name in the list.
+ *Support for Service class.
  * @author Duy.Tran
  */
 public class SearchHotel {
