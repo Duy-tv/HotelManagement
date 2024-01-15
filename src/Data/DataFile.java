@@ -36,7 +36,7 @@ public class DataFile {
                     HotelInformation c = (HotelInformation) ois.readObject();
                     list.add(c);
                 } catch (EOFException e) {
-                    break;
+                    check = false;
                 }
             }
             ois.close();
