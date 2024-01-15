@@ -30,15 +30,11 @@ public class DataFile {
                 System.err.println("File is empty");
             }
 
-            boolean check = true;
-            while (check) {
-                try {
-                    HotelInformation c = (HotelInformation) ois.readObject();
-                    list.add(c);
-                } catch (EOFException e) {
-                    check = false;
-                }
+            while (fis.available()>0){
+                HotelInformation c = (HotelInformation) ois.readObject();
+                list.add(c);
             }
+            
             ois.close();
             fis.close();
         } catch (FileNotFoundException e) {

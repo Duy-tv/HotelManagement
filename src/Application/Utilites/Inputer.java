@@ -109,22 +109,25 @@ public class Inputer {
 
     public boolean inputYN(String msg) {
         String choice;
-        while (true) {
+        boolean check = true;
+        while (check) {
             System.out.println(msg);
             choice = sc.nextLine();
             if (choice.equalsIgnoreCase("Y")) {
-                return true;
+                return check;
             } else if (choice.equalsIgnoreCase("N")) {
-                return false;
+                return check = false;
             } else {
                 System.err.println("Must be Y or N");
             }
         }
+        return check;
 
     }
 
     public String inputHotelID(ArrayList<HotelInformation> arr) {
         String id = "";
+        boolean check = true;
         do {
             System.out.println("Enter hotel ID:");
             id = sc.nextLine().toUpperCase();
@@ -135,7 +138,8 @@ public class Inputer {
             } else {
                 return id.toUpperCase();
             }
-        } while (true);
+        } while (check);
+        return id;
     }
 
     public String processingString(String input_string) {
