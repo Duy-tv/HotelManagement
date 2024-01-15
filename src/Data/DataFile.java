@@ -67,8 +67,9 @@ public class DataFile {
             }
 
             
-            try (FileOutputStream fos = new FileOutputStream(f)) {
-                ObjectOutputStream fileOut = new ObjectOutputStream(fos);
+            try (FileOutputStream fos = new FileOutputStream(f);
+                    ObjectOutputStream fileOut = new ObjectOutputStream(fos)) {
+                
                 for (HotelInformation item : list) {
                     fileOut.writeObject(item);
                 }
