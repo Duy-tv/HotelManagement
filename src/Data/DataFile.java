@@ -50,7 +50,7 @@ public class DataFile {
                 return false;
             }
         } catch (NumberFormatException e) {
-            System.err.println("Error parsing double value from input: " + e.getMessage());
+            System.err.println("Error parsing double value from input.");
             return false;
         }
         return true;
@@ -66,9 +66,9 @@ public class DataFile {
                 return false;
             }
 
-            ObjectOutputStream fileOut;
+            
             try (FileOutputStream fos = new FileOutputStream(f)) {
-                fileOut = new ObjectOutputStream(fos);
+                ObjectOutputStream fileOut = new ObjectOutputStream(fos);
                 for (HotelInformation item : list) {
                     fileOut.writeObject(item);
                 }

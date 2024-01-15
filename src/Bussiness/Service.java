@@ -204,7 +204,7 @@ public class Service implements IService {
         }
     }
 
-    public void display() {
+    private void display() {
         System.out.printf("|%9s|%17s|%25s|%80s|%20s|%20s|\n\n", "Hotel_ID", "Hotel_Name", "Hotel_Room_Available", "Hotel_Address", "Hotel_Phone", "Hotel_Rating");
     }
 
