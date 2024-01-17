@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class Inputer {
 
     private int input_int = 0;
-    SearchHotel sd = new SearchHotel();
+    SearchHotel searchHotel = new SearchHotel();
     Scanner sc = new Scanner(System.in);
 
     public int inputInt(String msg) {
@@ -43,9 +43,6 @@ public class Inputer {
         while (check) {
             try {
                 input_int = Integer.parseInt(sc.nextLine());
-                if(input_int == 0) {
-                    return 0;
-                }
                 if (input_int < x || input_int > y) {
                     System.out.println("This number must be from " + x + " to " + y);
                     check = true;
@@ -103,6 +100,7 @@ public class Inputer {
         do {
             System.out.println(msg);
             input_string = sc.nextLine();
+            input_string = processingString(input_string);
         } while (!input_string.trim().isEmpty() && !pattern.matcher(input_string).matches());
         return input_string;
     }
@@ -131,7 +129,7 @@ public class Inputer {
         do {
             System.out.println("Enter hotel ID:");
             id = sc.nextLine().toUpperCase();
-            if (sd.searchHotelById(arr, id) != null) {
+            if (searchHotel.searchHotelById(arr, id) != null) {
                 System.err.println("hotel ID already exists. Try another one.");
             } else if (id.trim().isEmpty()) {
                 System.err.println("ID can not empty!");
@@ -144,7 +142,7 @@ public class Inputer {
 
     public String processingString(String input_string) {
         if (input_string.isEmpty()) {
-            return " ";
+            return "";
         }
         String[] words = input_string.trim().split("\\s+"); //Delete extra space
         StringBuilder processString = new StringBuilder(); //does not create new objects continuously

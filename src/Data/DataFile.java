@@ -1,7 +1,6 @@
 package Data;
 
 import Bussiness.HotelInformation;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,11 +29,18 @@ public class DataFile {
                 System.err.println("File is empty");
             }
 
-            while (fis.available()>0){
+            while (fis.available() > 0) {
                 HotelInformation c = (HotelInformation) ois.readObject();
                 list.add(c);
+                /*
+                 * Condition available() checks whether there are still bytes available to be
+                 * read from the file.
+                 * If there are still bytes available to be read -> fis.available() will return
+                 * a positive value greater than 0.
+                 * Else fis.available() will return 0 and the loop exits.
+                 */
             }
-            
+
             ois.close();
             fis.close();
         } catch (FileNotFoundException e) {
@@ -42,7 +48,7 @@ public class DataFile {
             return false;
         } catch (IOException | ClassNotFoundException e) {
             if (f.length() != 0) {
-                System.err.println("Error reading from file: " + fileName + " " + e);
+                System.err.println("Error reading from file: " + fileName);
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -62,14 +68,13 @@ public class DataFile {
                 return false;
             }
 
-            
             try (FileOutputStream fos = new FileOutputStream(f);
-                    ObjectOutputStream fileOut = new ObjectOutputStream(fos)) {
-                
+                    ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
                 for (HotelInformation item : list) {
-                    fileOut.writeObject(item);
+                    oos.writeObject(item);
                 }
-                fileOut.close();
+                oos.close();
                 fos.close();
                 System.out.println(msg);
             }

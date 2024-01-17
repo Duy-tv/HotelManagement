@@ -22,16 +22,16 @@ import java.util.stream.Collectors;
 public class Service implements IService {
 
     private final List<HotelInformation> arrHotel = new ArrayList<>();
-    private final DataFile DF = new Data.DataFile();
+    private final DataFile data = new Data.DataFile();
     private final Inputer inputer = new Inputer();
-    private SearchHotel sd = new SearchHotel();
+    private SearchHotel searchHotel = new SearchHotel();
     private String pathName;
 
     public Service(String fileName) {
 
         this.pathName = fileName;
         try {
-            DF.loadData(arrHotel, pathName);
+            data.loadData(arrHotel, pathName);
         } catch (Exception e) {
             System.out.println("Empty list");
         }
@@ -55,10 +55,11 @@ public class Service implements IService {
             hotel_Name = inputer.inputStringPattern("Enter hotel name:", "^[a-zA-Z\\s]+$");
             hotel_Room_Available = inputer.inputInt("Enter the number of available rooms:");
             hotel_Address = inputer.inputString("Enter hotel address:");
-            hotel_Rating = inputer.rating("Enter hotel rating (1-5):", 1, 5);
-            hotel_Phone = inputer.inputStringPattern("Enter phone number(0xxxxxxxxx):", "0[88|99|77]\\d{7}");
-            arrHotel.add(new HotelInformation(hotel_Id, hotel_Name, hotel_Room_Available, hotel_Address, hotel_Phone, hotel_Rating));
-            DF.saveData(arrHotel, pathName, "Hotel information has been saved.");
+            hotel_Rating = inputer.rating("Enter hotel rating (0-5):", 0, 5);
+            hotel_Phone = inputer.inputStringPattern("Enter phone number(0xxxxxxxxx):", "0\\d{9}");
+            arrHotel.add(new HotelInformation(hotel_Id, hotel_Name, hotel_Room_Available, hotel_Address, hotel_Phone,
+                    hotel_Rating));
+            data.saveData(arrHotel, pathName, "Hotel information has been saved.");
             choice = inputer.inputYN("Do you want to continue(Y/N): ");
 
         }
@@ -70,17 +71,17 @@ public class Service implements IService {
         boolean choice = true;
         while (choice) {
             String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
-            DF.loadData(arrHotel, pathName);
-            HotelInformation CE = sd.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
-            if (CE != null) {
-                //Filter data using Stream API
-                System.out.println("Exist Hotel");
-                List<HotelInformation> temp = arrHotel.stream() //convert original list to stream
+            data.loadData(arrHotel, pathName);
+            HotelInformation search = searchHotel.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
+            if (search != null) {
+                // Filter data using Stream API
+                System.out.println("Exist Hotel\n");
+                List<HotelInformation> temp = arrHotel.stream() // convert original list to stream
                         .filter(hotel -> hotel.getHotel_Id().equalsIgnoreCase(hotel_Id))
-                        .collect(Collectors.toList()); //collects the elements of the stream into a new list
+                        .collect(Collectors.toList()); // collects the elements of the stream into a new list
                 display();
                 for (HotelInformation hotel : temp) {
-                    System.out.println(hotel); //print list
+                    System.out.println(hotel); // print list
                 }
             } else {
                 System.out.println("No Hotel Found!");
@@ -92,38 +93,55 @@ public class Service implements IService {
     @Override
     public void updateHotelInfor() {
         String hotel_Name;
-        int hotel_Room_Available;
+        String Room_Available;
         String hotel_Address;
         String hotel_Phone;
-        int hotel_Rating;
+        String Rating;
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
-        DF.loadData(arrHotel, pathName);
-        HotelInformation CE = sd.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
-        if (CE != null) {
+        data.loadData(arrHotel, pathName);
+        HotelInformation search = searchHotel.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
+        if (search != null) {
             hotel_Name = inputer.inputStringPatternBlank("Enter new hotel name:", "^[a-zA-Z\\s]+$");
-            hotel_Room_Available = inputer.inputInt("Enter new number of available rooms:");
+            Room_Available = inputer.inputStringCanBlank("Enter new number of available rooms:");
             hotel_Address = inputer.inputStringCanBlank("Enter new hotel address:");
-            hotel_Rating = inputer.rating("Enter new hotel rating (1-5):", 1, 5);
+            Rating = inputer.inputStringCanBlank("Enter new hotel rating (0-5):");
             hotel_Phone = inputer.inputStringPatternBlank("Enter new phone number(0xxxxxxxxx):", "0\\d{9}");
+
+            // check name empty
             if (!hotel_Name.isEmpty()) {
-                CE.setHotel_Name(hotel_Name);
+                search.setHotel_Name(hotel_Name);
             }
-            if (hotel_Room_Available != 0) {
-                CE.setHotel_Room_Available(hotel_Room_Available);
+
+            // check room empty
+            if (!Room_Available.isEmpty()) {
+                    if (Room_Available.matches("\\d+")) {
+                        int Hotel_Room_Available = Integer.parseInt(Room_Available);
+                        search.setHotel_Room_Available(Hotel_Room_Available);
+                    }               
             }
+
+            // check address empty
             if (!hotel_Address.isEmpty()) {
-                CE.setHotel_Address(hotel_Address);
+                search.setHotel_Address(hotel_Address);
             }
-            if (hotel_Rating != 0) {
-                CE.setHotel_Rating(hotel_Rating);
+
+            // check rate empty
+            if (!Rating.isEmpty()) {
+                    if (Rating.matches("\\d+")) {
+                        if (Rating.matches("^[0-5]$")) {
+                            int hotel_Rating = Integer.parseInt(Rating);
+                            search.setHotel_Rating(hotel_Rating);
+                        }
+                    }
             }
+
+            // check phone empty
             if (!hotel_Phone.isEmpty()) {
-                CE.setHotel_Phone(hotel_Phone);
+                search.setHotel_Phone(hotel_Phone);
             }
-            DF.saveData(arrHotel, pathName, "Hotel information updated successfully.");
 
+            data.saveData(arrHotel, pathName, "Hotel information updated successfully.\n");
             displayHotel();
-
         } else {
             System.out.println("Hotel does not exist");
         }
@@ -132,14 +150,14 @@ public class Service implements IService {
     @Override
     public void deleteHotel() {
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
-        HotelInformation CE = sd.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
-        if (CE != null) {
+        HotelInformation search = searchHotel.searchHotelById((ArrayList<HotelInformation>) arrHotel, hotel_Id);
+        if (search != null) {
             System.out.println("Do you ready want to delete this hotel ?");
             if (inputer.inputYN("(Choose Y or N):") == true) {
-                arrHotel.remove(CE); //remove the list that matches the entered ID
-                DF.saveData(arrHotel, pathName, "Success.");
+                arrHotel.remove(search); // remove the list that matches the entered ID
+                data.saveData(arrHotel, pathName, "Success.\n");
             } else {
-                System.out.println("Fail.");
+                System.out.println("Fail.\n");
             }
         } else {
             System.out.println("No hotel with ID containing \"" + hotel_Id + "\" found.");
@@ -151,10 +169,10 @@ public class Service implements IService {
     public void checkHotelById() {
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
 
-        //Filter data using Stream API
-        List<HotelInformation> temp = arrHotel.stream() //convert original list to stream
+        // Filter data using Stream API
+        List<HotelInformation> temp = arrHotel.stream() // convert original list to stream
                 .filter(hotel -> hotel.getHotel_Id().contains(hotel_Id))
-                .collect(Collectors.toList()); //collects the elements of the stream into a new list
+                .collect(Collectors.toList()); // collects the elements of the stream into a new list
         if (!temp.isEmpty()) {
             Collections.sort(temp, Comparator.comparing(HotelInformation::getHotel_Id).reversed());
 
@@ -172,10 +190,10 @@ public class Service implements IService {
     public void checkHotelbyName() {
         String hotel_Name = inputer.inputStringPattern("Enter hotel name:", "^[a-zA-Z\\s]+$");
 
-        //Filter data using Stream API
-        List<HotelInformation> temp = arrHotel.stream() //convert original list to stream
+        // Filter data using Stream API
+        List<HotelInformation> temp = arrHotel.stream() // convert original list to stream
                 .filter(hotel -> hotel.getHotel_Name().contains(hotel_Name))
-                .collect(Collectors.toList()); //collects the elements of the stream into a new list
+                .collect(Collectors.toList()); // collects the elements of the stream into a new list
         if (!temp.isEmpty()) {
             Collections.sort(temp, Comparator.comparing(HotelInformation::getHotel_Name));
 
@@ -192,7 +210,7 @@ public class Service implements IService {
     @Override
     public void displayHotel() {
         display();
-        //display data in file with descending by Hotel_Name
+        // display data in file with descending by Hotel_Name
         if (!arrHotel.isEmpty()) {
             Collections.sort(arrHotel, Comparator.comparing(HotelInformation::getHotel_Name).reversed());
             arrHotel.forEach((hotel) -> {
@@ -205,7 +223,8 @@ public class Service implements IService {
     }
 
     private void display() {
-        System.out.printf("|%9s|%17s|%25s|%80s|%20s|%20s|\n\n", "Hotel_ID", "Hotel_Name", "Hotel_Room_Available", "Hotel_Address", "Hotel_Phone", "Hotel_Rating");
+        System.out.printf("|%9s|%17s|%25s|%80s|%20s|%20s|\n\n", "Hotel_ID", "Hotel_Name", "Hotel_Room_Available",
+                "Hotel_Address", "Hotel_Phone", "Hotel_Rating");
     }
 
 }
