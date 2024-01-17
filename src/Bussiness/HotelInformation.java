@@ -79,7 +79,7 @@ public class HotelInformation implements Serializable, Comparable<HotelInformati
 
     @Override
     public String toString() {
-        return String.format("|%9s|%17s|%25s|%80s|%20s|%20s|\n", hotel_Id, hotel_Name, hotel_Room_Available, hotel_Address, hotel_Phone, hotel_Rating);
+        return String.format("|%9s|%17s|%25s|%80s|%20s|%15s star|\n", hotel_Id, hotel_Name, hotel_Room_Available, hotel_Address, hotel_Phone, hotel_Rating);
     }
 
     @Override
