@@ -15,8 +15,7 @@ import java.io.EOFException;
 public class HotelManagement {
 
     /**
-     * @param args the command line arguments
-     * @throws java.io.EOFException
+     * Displays the searching hotel menu and performs corresponding actions based on user input.
      */
     public static void main(String[] args) throws EOFException {
         Menu menu = new Menu();

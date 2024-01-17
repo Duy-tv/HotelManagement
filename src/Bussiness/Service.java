@@ -27,6 +27,12 @@ public class Service implements IService {
     private SearchHotel searchHotel = new SearchHotel();
     private String pathName;
 
+    /**
+     * Constructor for the Service class. Loads hotel data from the specified
+     * file, and if the list is empty, prompts the user to add new hotels.
+     *
+     * @param fileName The file name to load hotel data from.
+     */
     public Service(String fileName) {
 
         this.pathName = fileName;
@@ -41,6 +47,9 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Adds a new hotel to the list based on user input.
+     */
     @Override
     public void addHotel() {
         String hotel_Id;
@@ -65,6 +74,9 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Checks and displays information for existing hotels based on user input.
+     */
     @Override
     public void checkExitsHotel() {
 
@@ -90,6 +102,9 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Updates hotel information based on user input.
+     */
     @Override
     public void updateHotelInfor() {
         String hotel_Name;
@@ -114,10 +129,10 @@ public class Service implements IService {
 
             // check room empty
             if (!Room_Available.isEmpty()) {
-                    if (Room_Available.matches("\\d+")) {
-                        int Hotel_Room_Available = Integer.parseInt(Room_Available);
-                        search.setHotel_Room_Available(Hotel_Room_Available);
-                    }               
+                if (Room_Available.matches("\\d+")) {
+                    int Hotel_Room_Available = Integer.parseInt(Room_Available);
+                    search.setHotel_Room_Available(Hotel_Room_Available);
+                }
             }
 
             // check address empty
@@ -127,12 +142,12 @@ public class Service implements IService {
 
             // check rate empty
             if (!Rating.isEmpty()) {
-                    if (Rating.matches("\\d+")) {
-                        if (Rating.matches("^[0-5]$")) {
-                            int hotel_Rating = Integer.parseInt(Rating);
-                            search.setHotel_Rating(hotel_Rating);
-                        }
+                if (Rating.matches("\\d+")) {
+                    if (Rating.matches("^[0-5]$")) {
+                        int hotel_Rating = Integer.parseInt(Rating);
+                        search.setHotel_Rating(hotel_Rating);
                     }
+                }
             }
 
             // check phone empty
@@ -147,6 +162,9 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Deletes a hotel based on user input.
+     */
     @Override
     public void deleteHotel() {
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
@@ -165,6 +183,9 @@ public class Service implements IService {
 
     }
 
+    /**
+     * Checks and displays hotel information based on user input (search by ID).
+     */
     @Override
     public void checkHotelById() {
         String hotel_Id = inputer.inputUpperString("Enter hotel ID:");
@@ -186,6 +207,10 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Checks and displays hotel information based on user input (search by
+     * name).
+     */
     @Override
     public void checkHotelbyName() {
         String hotel_Name = inputer.inputStringPattern("Enter hotel name:", "^[a-zA-Z\\s]+$");
@@ -207,6 +232,9 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Displays hotel information in a formatted table.
+     */
     @Override
     public void displayHotel() {
         display();
@@ -222,6 +250,11 @@ public class Service implements IService {
         }
     }
 
+    /**
+     * Displays the header of the hotel information table. The table includes
+     * columns for Hotel_ID, Hotel_Name, Hotel_Room_Available, Hotel_Address,
+     * Hotel_Phone, and Hotel_Rating.
+     */
     private void display() {
         System.out.printf("|%9s|%17s|%25s|%80s|%20s|%20s|\n\n", "Hotel_ID", "Hotel_Name", "Hotel_Room_Available",
                 "Hotel_Address", "Hotel_Phone", "Hotel_Rating");

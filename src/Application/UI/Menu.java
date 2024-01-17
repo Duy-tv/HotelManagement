@@ -9,13 +9,17 @@ import Application.Utilites.Inputer;
 import Bussiness.Service;
 
 /**
- *Menu class for displaying options.
+ * Menu class for displaying options.
+ *
  * @author Duy.Tran
  */
 public class Menu extends Inputer {
 
     Service service = new Service("Hotel.dat");
 
+    /**
+     * Display the main menu with multiple options
+     */
     public void menuDisplay() {
         System.out.println("\n1. Adding new Hotel.");
         System.out.println("2. Checking exits Hotel.");
@@ -27,16 +31,27 @@ public class Menu extends Inputer {
 
     }
 
+    /**
+     * Take user input to choose an options from menu.
+     *
+     */
     public int choose() {
         return inputInt("Choose your option: ");
     }
 
+    /**
+     * Display sub-menu for searching hotels.
+     */
     public void searchingHotel() {
         System.out.println("\n1. Searching by Hotel_id.");
         System.out.println("2. Searching by Hotel_name.\n");
 
     }
 
+    /**
+     * Displays the searching hotel menu and performs corresponding actions
+     * based on user input.
+     */
     public void searchingHotelMenu() {
         searchingHotel();
         switch (choose()) {

@@ -16,6 +16,14 @@ import java.util.List;
  */
 public class DataFile {
 
+    /**
+     * Loads data from a file into the provided list of HotelInformation
+     * objects. Clears the existing list before loading the data.
+     *
+     * @param list The list to populate with loaded data.
+     * @param fileName The name of the file from which to load data.
+     * @return True if data loading is successful, false otherwise.
+     */
     public boolean loadData(List<HotelInformation> list, String fileName) {
         list.clear();
         File f = new File(fileName);
@@ -58,6 +66,14 @@ public class DataFile {
         return true;
     }
 
+    /**
+     * Saves data from the list into a file.
+     *
+     * @param list The list containing HotelInformation objects to be saved.
+     * @param fileName The name of the file to which the data will be saved.
+     * @param msg The message to be displayed upon successful data saving.
+     * @return True if data saving is successful, false otherwise.
+     */
     public boolean saveData(List<HotelInformation> list, String fileName, String msg) {
 
         try {

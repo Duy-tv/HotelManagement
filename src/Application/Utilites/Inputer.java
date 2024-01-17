@@ -12,8 +12,10 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- *Process user input in a hotel management application.
- *Provides methods for inputting various types of data such as integers, strings, and yes/no choices.
+ * Process user input in a hotel management application. Provides methods for
+ * inputting various types of data such as integers, strings, and yes/no
+ * choices.
+ *
  * @author Duy.Tran
  */
 public class Inputer {
@@ -22,6 +24,12 @@ public class Inputer {
     SearchHotel searchHotel = new SearchHotel();
     Scanner sc = new Scanner(System.in);
 
+    /**
+     * Reads an integer from the user.
+     *
+     * @param msg The message to display before taking input.
+     * @return The entered integer.
+     */
     public int inputInt(String msg) {
         System.out.print(msg);
         boolean check = true;
@@ -37,6 +45,14 @@ public class Inputer {
         return 0;
     }
 
+    /**
+     * Reads an integer within a specified range from the user.
+     *
+     * @param msg The message to display before taking input.
+     * @param x The minimum value of the range.
+     * @param y The maximum value of the range.
+     * @return The entered integer within the specified range.
+     */
     public int rating(String msg, int x, int y) {
         System.out.print(msg);
         boolean check = true;
@@ -57,6 +73,12 @@ public class Inputer {
         return 0;
     }
 
+    /**
+     * Reads an uppercase string from the user
+     *
+     * @param msg The message to display before taking input.
+     * @return The entered uppercase string
+     */
     public String inputUpperString(String msg) {
         String input_string = "";
         do {
@@ -66,6 +88,12 @@ public class Inputer {
         return input_string;
     }
 
+    /**
+     * Reads a non-empty string from the user and processes it.
+     *
+     * @param msg The message to display before taking input.
+     * @return The entered and processed string.
+     */
     public String inputString(String msg) {
         String input_string = "";
         do {
@@ -75,15 +103,28 @@ public class Inputer {
         } while (input_string.trim().isEmpty());
         return input_string;
     }
-    
+
+    /**
+     * Reads a string from the user (which can be blank) and processes it.
+     *
+     * @param msg The message to display before taking input.
+     * @return The entered and processed string.
+     */
     public String inputStringCanBlank(String msg) {
         String input_string = "";
-            System.out.println(msg);
-            input_string = sc.nextLine();
-            input_string = processingString(input_string);
+        System.out.println(msg);
+        input_string = sc.nextLine();
+        input_string = processingString(input_string);
         return input_string;
     }
 
+    /**
+     * Reads a string from the user that matches a specified pattern.
+     *
+     * @param msg The message to display before taking input.
+     * @param pt The regular expression pattern.
+     * @return The entered string that matches the pattern.
+     */
     public String inputStringPattern(String msg, String pt) {
         String input_string = "";
         Pattern pattern = Pattern.compile(pt);
@@ -93,7 +134,15 @@ public class Inputer {
         } while (input_string.trim().isEmpty() || !pattern.matcher(input_string).matches());
         return input_string;
     }
-    
+
+    /**
+     * Reads a string from the user that matches a specified pattern (which can
+     * be blank) and processes it.
+     *
+     * @param msg The message to display before taking input.
+     * @param pt The regular expression pattern.
+     * @return The entered and processed string that matches the pattern.
+     */
     public String inputStringPatternBlank(String msg, String pt) {
         String input_string = "";
         Pattern pattern = Pattern.compile(pt);
@@ -105,6 +154,12 @@ public class Inputer {
         return input_string;
     }
 
+    /**
+     * Reads a yes/no choice from the user.
+     *
+     * @param msg The message to display before taking input.
+     * @return True if the choice is 'Y', false if the choice is 'N'.
+     */
     public boolean inputYN(String msg) {
         String choice;
         boolean check = true;
@@ -123,6 +178,13 @@ public class Inputer {
 
     }
 
+    /**
+     * Reads a hotel ID from the user, checking for uniqueness and non-empty
+     * input.
+     *
+     * @param arr The ArrayList of HotelInformation to check for existing IDs.
+     * @return The entered and validated hotel ID.
+     */
     public String inputHotelID(ArrayList<HotelInformation> arr) {
         String id = "";
         boolean check = true;
@@ -140,6 +202,12 @@ public class Inputer {
         return id;
     }
 
+    /**
+     * Processes a string by capitalizing the first characters of each word.
+     *
+     * @param input_string The input string to be processed.
+     * @return The processed string.
+     */
     public String processingString(String input_string) {
         if (input_string.isEmpty()) {
             return "";
